@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Utilizare: $0 <link_repo_personal>"
+  exit 1
+fi
+
+REPO_URL=$1
+
+# Șterge remote-ul 'origin' existent (cel de unde ai dat clone)
+git remote remove origin 2>/dev/null
+
+# Adaugă noul tău repo ca origin
+git remote add origin "$REPO_URL"
+
+# Află numele branch-ului curent (main sau master)
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Trimite codul
+echo "Se trimite codul către $REPO_URL pe branch-ul $BRANCH..."
+git push -u origin "$BRANCH"
