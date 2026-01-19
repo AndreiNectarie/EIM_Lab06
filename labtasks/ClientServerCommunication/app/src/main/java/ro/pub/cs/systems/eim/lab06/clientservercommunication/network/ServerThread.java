@@ -46,10 +46,9 @@ public class ServerThread extends Thread {
             serverSocket = new ServerSocket(Constants.SERVER_PORT);
             while (isRunning) {
                 Socket socket = serverSocket.accept();
-                if (socket != null) {
-                    CommunicationThread communicationThread = new CommunicationThread(socket, serverTextEditText);
-                    communicationThread.start();
-                }
+                Log.v(Constants.TAG, "accept()-ed: " + socket.getInetAddress());
+                CommunicationThread communicationThread = new CommunicationThread(socket, serverTextEditText);
+                communicationThread.start();
             }
         } catch (IOException ioException) {
             Log.e(Constants.TAG, "An exception has occurred: " + ioException.getMessage());
