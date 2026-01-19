@@ -47,21 +47,14 @@ public class ServerThread extends Thread {
     public void run() {
         try {
             serverSocket = new ServerSocket(Constants.SERVER_PORT);
+            Log.v(Constants.TAG, "run() method invoked: " + serverSocket);
             while (isRunning) {
                 Socket socket = serverSocket.accept();
                 Log.v(Constants.TAG, "Connection opened with " + socket.getInetAddress() + ":" + socket.getLocalPort());
-
-                // TODO exercise 5c
-                // simulate the fact the communication routine between the server and the client takes 3 seconds
-
-                PrintWriter printWriter = Utilities.getWriter(socket);
-                printWriter.println(serverTextEditText.getText().toString());
-                socket.close();
-                Log.v(Constants.TAG, "Connection closed");
-
                 // TODO exercise 5d
                 // move the communication routine between the server and the client on a separate thread (each)
-
+                // PORNEȘTE THREAD-UL NOU (Exercițiul 5d)
+                new CommunicationThread(socket, serverTextEditText).start();
             }
         } catch (IOException ioException) {
             Log.e(Constants.TAG, "An exception has occurred: " + ioException.getMessage());
